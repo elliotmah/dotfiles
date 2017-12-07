@@ -1,16 +1,12 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Must Have
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" colorscheme solarized
-" syntax on " syntax highlighting on
 syntax enable
-" let g:solarized_termtrans = 1
-"call togglebg#map("<F5>")
-if has('gui_running')
-    set background=light
-else
-    set background=dark
+set t_Co=256
+if (has('termguicolors'))
+    set termguicolors
 endif
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vundle
@@ -69,8 +65,11 @@ Plugin 'leafgarland/typescript-vim'
 " Vue.js
 Plugin 'posva/vim-vue'
 Plugin 'mattn/emmet-vim'
+Plugin 'mhartington/oceanic-next'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
+colorscheme OceanicNext      " must be after call vundle#end()
+
 filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
@@ -83,6 +82,7 @@ filetype plugin indent on    " required
 "
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -306,7 +306,7 @@ let g:syntastic_pug_checkers = ['jade','pug']
 " Other
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:sneak#streak = 1
-let g:airline_theme='bubblegum'
+let g:airline_theme='oceanicnext'
 let g:user_emmet_install_global = 0
 " Only enable Emmet for html/css
 autocmd FileType html,css EmmetInstall
