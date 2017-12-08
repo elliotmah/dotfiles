@@ -21,7 +21,7 @@ call vundle#begin()
 " Keep Plugin commands between vundle#begin/end.
 " let Vundle manage Vundle
 Plugin 'VundleVim/Vundle.vim'
-" Plugin 'Valloric/YouCompleteMe'
+
 " Navigation (IDE frame)
 Plugin 'scrooloose/nerdtree'
 Plugin 'jistr/vim-nerdtree-tabs'
@@ -34,13 +34,22 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-surround'
 Plugin 'dkprice/vim-easygrep'
 Plugin 'editorconfig/editorconfig-vim'
+Plugin 'ctrlpvim/ctrlp.vim'
+
 " visual undo list
 Plugin 'sjl/gundo.vim'
+
+" Outline view of tags
 " Plugin 'majutsushi/tagbar'
+"
 " markdown preview: opens browser with live reload when vim opens .md
 Plugin 'suan/vim-instant-markdown'
+
+" Align text in columns for easier reading
 Plugin 'godlygeek/tabular'
-" language tools
+
+" Language tools
+" Plugin 'Valloric/YouCompleteMe' "requires compilation to use
 Plugin 'scrooloose/syntastic'
 Plugin 'millermedeiros/vim-esformatter'
 Plugin 'digitaltoad/vim-pug'
@@ -60,11 +69,15 @@ Plugin 'SuperTab'
 " Install L9 and avoid a Naming conflict if you've already installed a
 " different version somewhere else.
 " Plugin 'ascenator/L9', {'name': 'newL9'}
+
+
 " TypeScript
 Plugin 'leafgarland/typescript-vim'
-" Vue.js
-Plugin 'posva/vim-vue'
+
+" Emmet.io
 Plugin 'mattn/emmet-vim'
+
+" colourscheme for vim and airline
 Plugin 'mhartington/oceanic-next'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -158,6 +171,7 @@ set tabstop=4 " real tabs should be 4, but they will show with set list on
 set copyindent " but above all -- follow the conventions laid before us
 " wrap lines at 120 chars. 80 is somewhat antiquated with nowadays displays.
 set textwidth=120
+set breakindent " respect indenting when text wraps
 filetype plugin indent on " load filetype plugins and indent settings
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -174,6 +188,41 @@ set completeopt=menu,longest,preview " improve the way autocomplete works
 set cursorcolumn " show the current column
 set cursorline
 " hi CursorLine term=underline ctermbg=008 guibg=#493a35
+"
+"
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" SoftWrap Function
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+noremap <silent> <Leader>w :call ToggleWrap()<CR>
+function ToggleWrap()
+  if &wrap
+    echo "Wrap OFF"
+    setlocal nowrap
+    set virtualedit=all
+    silent! nunmap <buffer> <Up>
+    silent! nunmap <buffer> <Down>
+    silent! nunmap <buffer> <Home>
+    silent! nunmap <buffer> <End>
+    silent! iunmap <buffer> <Up>
+    silent! iunmap <buffer> <Down>
+    silent! iunmap <buffer> <Home>
+    silent! iunmap <buffer> <End>
+  else
+    echo "Wrap ON"
+    setlocal wrap linebreak nolist
+    set virtualedit=
+    setlocal display+=lastline
+    noremap  <buffer> <silent> <Up>   gk
+    noremap  <buffer> <silent> <Down> gj
+    noremap  <buffer> <silent> <Home> g<Home>
+    noremap  <buffer> <silent> <End>  g<End>
+    inoremap <buffer> <silent> <Up>   <C-o>gk
+    inoremap <buffer> <silent> <Down> <C-o>gj
+    inoremap <buffer> <silent> <Home> <C-o>g<Home>
+    inoremap <buffer> <silent> <End>  <C-o>g<End>
+  endif
+endfunction
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Folding
