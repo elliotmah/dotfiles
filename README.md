@@ -1,4 +1,6 @@
-# dotfiles
-My Personal Dotfiles
+# My Personal Dotfiles
 
-## Requires installation of vundle on first usage
+### Dependencies
+* Node.js
+* Vundle
+* vim-instant-markdown
