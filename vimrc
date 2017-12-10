@@ -1,21 +1,12 @@
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Must Have
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-syntax enable
-set t_Co=256
-if (has('termguicolors'))
-    set termguicolors
-endif
-
+" Vim-Plug
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Vim-Plug
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.vim/plugged') " Plugins after this line
 " Navigation (IDE frame)
 Plug 'scrooloose/nerdtree'
@@ -29,7 +20,14 @@ Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-surround'
 Plug 'dkprice/vim-easygrep'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'ctrlpvim/ctrlp.vim'
+
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
 
 " visual undo list
 Plug 'sjl/gundo.vim'
@@ -38,7 +36,7 @@ Plug 'sjl/gundo.vim'
 " Plug 'majutsushi/tagbar'
 "
 " markdown preview: opens browser with live reload when vim opens .md
-Plug 'suan/vim-instant-markdown'
+Plug 'suan/vim-instant-markdown', {'for':'markdown'}
 
 " Align text in columns for easier reading
 Plug 'godlygeek/tabular'
@@ -66,42 +64,49 @@ Plug 'digitaltoad/vim-pug'
 Plug 'leafgarland/typescript-vim'
 
 " Emmet.io
-Plug 'mattn/emmet-vim'
+Plug 'mattn/emmet-vim', {'for': ['html',':css']}
 
 " colourscheme for vim and airline
 Plug 'mhartington/oceanic-next'
 
+filetype plugin indent on  "required
 call plug#end() " Plugins before this line
 
-colorscheme OceanicNext      " must be after call vundle#end()
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Must Have
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+syntax enable
+set t_Co=256
+if (has('termguicolors'))
+    set termguicolors
+endif
 
-filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
+colorscheme OceanicNext
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" set UTF-8 encoding
 set enc=utf-8
 set fenc=utf-8
 set termencoding=utf-8
 set history=1000 " How many lines of history to remember
 set cf " enable error files and error jumping
-" set clipboard+=unnamed " turns out I do like sharing windows clipboard
 set ffs=unix,dos,mac " support all three, in this order
 set viminfo+=! " make sure it can save viminfo
 set isk+=_,$,@,%,# " none of these should be word dividers, so make them not be
 set nosol " leave my cursor where it was
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Mappings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" map <up> <ESC>:bp<RETURN> " left arrow (normal mode) switches buffers
+" map <down> <ESC>:bn<RETURN> " right arrow (normal mode) switches buffers
+" map <right> <ESC>:Tlist<RETURN> " show taglist
+" map <left> <ESC>:NERDTreeToggle<RETURN>  " moves left fa split
+" map <F2> <ESC>ggVG:call SuperRetab()<left>
+" map <F12> ggVGg? " apply rot13 for people snooping over shoulder, good fun
+
+let mapleader = ',' "remap <leader>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Files/Backups/Sessions
@@ -164,7 +169,6 @@ set copyindent " but above all -- follow the conventions laid before us
 " wrap lines at 120 chars. 80 is somewhat antiquated with nowadays displays.
 set textwidth=120
 set breakindent " respect indenting when text wraps
-filetype plugin indent on " load filetype plugins and indent settings
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Text Formatting/Layout
@@ -247,11 +251,6 @@ set foldopen-=undo " don't open folds when you undo stuff
 let b:match_ignorecase = 1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Perl
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" let perl_extended_vars=1 " highlight advanced perl vars inside strings
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Custom Functions
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Select range, then hit :SuperRetab($width) - by p0g and FallingCow
@@ -259,15 +258,6 @@ function! SuperRetab(width) range
     silent! exe a:firstline . ',' . a:lastline . 's/\v%(^ *)@<= {'. a:width .'}/\t/g'
 endfunction
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Mappings
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" map <up> <ESC>:bp<RETURN> " left arrow (normal mode) switches buffers
-" map <down> <ESC>:bn<RETURN> " right arrow (normal mode) switches buffers
-" map <right> <ESC>:Tlist<RETURN> " show taglist
-" map <left> <ESC>:NERDTreeToggle<RETURN>  " moves left fa split
-" map <F2> <ESC>ggVG:call SuperRetab()<left>
-" map <F12> ggVGg? " apply rot13 for people snooping over shoulder, good fun
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Useful abbrevs
@@ -319,7 +309,7 @@ let NERDTreeIgnore=['\.DS_Store$']
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 " Toggle NERDtree with C-n
-map ,n <plug>NERDTreeTabsToggle<CR>
+map <C-n> <plug>NERDTreeTabsToggle<CR>
 " Autoclose if only NERDtree is left
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
@@ -348,11 +338,14 @@ let g:syntastic_enable_tslint_checker = 1
 let g:syntastic_typescript_checkers = ['tslint', 'tsc']
 let g:syntastic_enable_pug_checker = 1
 let g:syntastic_pug_checkers = ['jade','pug']
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Other
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:deoplete#enable_at_startup = 1 " requires Vim 8 with python 3 and neovim
 let g:sneak#streak = 1
-let g:airline_theme='oceanicnext'
-let g:user_emmet_install_global = 0
-" Only enable Emmet for html/css
-autocmd FileType html,css EmmetInstall
+let g:airline_theme = 'oceanicnext'
+
+" emmet expand on tab
+let g:user_emmet_expandabbr_key='<Tab>'
+imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
