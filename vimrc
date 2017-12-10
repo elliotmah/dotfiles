@@ -21,6 +21,7 @@ Plug 'tpope/vim-surround'
 Plug 'dkprice/vim-easygrep'
 Plug 'editorconfig/editorconfig-vim'
 
+" deoplete code completion
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
@@ -41,27 +42,11 @@ Plug 'suan/vim-instant-markdown', {'for':'markdown'}
 " Align text in columns for easier reading
 Plug 'godlygeek/tabular'
 
-" Language tools
-Plug 'scrooloose/syntastic'
-Plug 'millermedeiros/vim-esformatter'
-Plug 'digitaltoad/vim-pug'
-" Plug 'elzr/vim-json'
-" Plug 'SirVer/ultisnips'
-"Plug 'sheerun/vim-polyglot'
-" plugins from http://vim-scripts.org/vim/scripts.html
-" Git plugin not hosted on GitHub
-" Plug 'git://git.wincent.com/command-t.git'
-" git repos on your local machine (i.e. when working on your own plugin)
-" Plug 'file:///home/gmarik/path/to/plugin'
-" The sparkup vim script is in a subdirectory of this repo called vim.
-" Pass the path to set the runtimepath properly.
-" Plug 'rstacruz/sparkup', {'rtp': 'vim/'}
-" Install L9 and avoid a Naming conflict if you've already installed a
-" different version somewhere else.
-" Plug 'ascenator/L9', {'name': 'newL9'}
-
-" TypeScript
-Plug 'leafgarland/typescript-vim'
+" Javascript related
+Plug 'pangloss/vim-javascript'
+Plug 'elzr/vim-json'
+Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
+Plug 'steelsojka/deoplete-flow', { 'do': 'npm install -g flow-bin' }
 
 " Emmet.io
 Plug 'mattn/emmet-vim', {'for': ['html',':css']}
@@ -184,41 +169,6 @@ set completeopt=menu,longest,preview " improve the way autocomplete works
 set cursorcolumn " show the current column
 set cursorline
 " hi CursorLine term=underline ctermbg=008 guibg=#493a35
-"
-"
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" SoftWrap Function
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-noremap <silent> <Leader>w :call ToggleWrap()<CR>
-function ToggleWrap()
-  if &wrap
-    echo "Wrap OFF"
-    setlocal nowrap
-    set virtualedit=all
-    silent! nunmap <buffer> <Up>
-    silent! nunmap <buffer> <Down>
-    silent! nunmap <buffer> <Home>
-    silent! nunmap <buffer> <End>
-    silent! iunmap <buffer> <Up>
-    silent! iunmap <buffer> <Down>
-    silent! iunmap <buffer> <Home>
-    silent! iunmap <buffer> <End>
-  else
-    echo "Wrap ON"
-    setlocal wrap linebreak nolist
-    set virtualedit=
-    setlocal display+=lastline
-    noremap  <buffer> <silent> <Up>   gk
-    noremap  <buffer> <silent> <Down> gj
-    noremap  <buffer> <silent> <Home> g<Home>
-    noremap  <buffer> <silent> <End>  g<End>
-    inoremap <buffer> <silent> <Up>   <C-o>gk
-    inoremap <buffer> <silent> <Down> <C-o>gj
-    inoremap <buffer> <silent> <Home> <C-o>g<Home>
-    inoremap <buffer> <silent> <End>  <C-o>g<End>
-  endif
-endfunction
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Folding
@@ -253,10 +203,54 @@ let b:match_ignorecase = 1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Custom Functions
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"SoftWrap function and remap arrow keys
+
+noremap <silent> <Leader>w :call ToggleWrap()<CR>
+function ToggleWrap()
+  if &wrap
+    echo "Wrap OFF"
+    setlocal nowrap
+    set virtualedit=all
+    silent! nunmap <buffer> <Up>
+    silent! nunmap <buffer> <Down>
+    silent! nunmap <buffer> <Home>
+    silent! nunmap <buffer> <End>
+    silent! iunmap <buffer> <Up>
+    silent! iunmap <buffer> <Down>
+    silent! iunmap <buffer> <Home>
+    silent! iunmap <buffer> <End>
+  else
+    echo "Wrap ON"
+    setlocal wrap linebreak nolist
+    set virtualedit=
+    setlocal display+=lastline
+    noremap  <buffer> <silent> <Up>   gk
+    noremap  <buffer> <silent> <Down> gj
+    noremap  <buffer> <silent> <Home> g<Home>
+    noremap  <buffer> <silent> <End>  g<End>
+    inoremap <buffer> <silent> <Up>   <C-o>gk
+    inoremap <buffer> <silent> <Down> <C-o>gj
+    inoremap <buffer> <silent> <Home> <C-o>g<Home>
+    inoremap <buffer> <silent> <End>  <C-o>g<End>
+  endif
+endfunction
+
 " Select range, then hit :SuperRetab($width) - by p0g and FallingCow
 function! SuperRetab(width) range
     silent! exe a:firstline . ',' . a:lastline . 's/\v%(^ *)@<= {'. a:width .'}/\t/g'
 endfunction
+
+" Check if flow-bin is installed in node_modules, take local one before defaulting to global
+function! StrTrim(txt)
+  return substitute(a:txt, '^\n*\s*\(.\{-}\)\n*\s*$', '\1', '')
+endfunction
+
+let g:flow_path = StrTrim(system('PATH=$(npm bin):$PATH && which flow'))
+
+if g:flow_path != 'flow not found'
+  let g:deoplete#sources#flow#flow_bin = g:flow_path
+endif
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -317,27 +311,6 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 " Instant Markdown
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:instant_markdown_autostart = 1
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Syntastic
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_html_tidy_quiet_messages = { "level": "warnings" }
-let g:syntastic_html_tidy_ignore_errors = [ '<template> is not recognized!' ]
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-"let g:syntastic_check_on_wq = 0
-let g:syntastic_enable_eslint_checker = 1
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_enable_tslint_checker = 1
-let g:syntastic_typescript_checkers = ['tslint', 'tsc']
-let g:syntastic_enable_pug_checker = 1
-let g:syntastic_pug_checkers = ['jade','pug']
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Other
