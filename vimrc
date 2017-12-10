@@ -7,80 +7,72 @@ if (has('termguicolors'))
     set termguicolors
 endif
 
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Vundle
+" Vim-Plug
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set nocompatible              " be iMproved, required
-filetype off                  " required
-
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-" Keep Plugin commands between vundle#begin/end.
-" let Vundle manage Vundle
-Plugin 'VundleVim/Vundle.vim'
-
+call plug#begin('~/.vim/plugged') " Plugins after this line
 " Navigation (IDE frame)
-Plugin 'scrooloose/nerdtree'
-Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-sensible'
-Plugin 'justinmk/vim-sneak'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'tpope/vim-surround'
-Plugin 'dkprice/vim-easygrep'
-Plugin 'editorconfig/editorconfig-vim'
-Plugin 'ctrlpvim/ctrlp.vim'
+Plug 'scrooloose/nerdtree'
+Plug 'jistr/vim-nerdtree-tabs'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-sensible'
+Plug 'justinmk/vim-sneak'
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-surround'
+Plug 'dkprice/vim-easygrep'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'ctrlpvim/ctrlp.vim'
 
 " visual undo list
-Plugin 'sjl/gundo.vim'
+Plug 'sjl/gundo.vim'
 
 " Outline view of tags
-" Plugin 'majutsushi/tagbar'
+" Plug 'majutsushi/tagbar'
 "
 " markdown preview: opens browser with live reload when vim opens .md
-Plugin 'suan/vim-instant-markdown'
+Plug 'suan/vim-instant-markdown'
 
 " Align text in columns for easier reading
-Plugin 'godlygeek/tabular'
+Plug 'godlygeek/tabular'
 
 " Language tools
-" Plugin 'Valloric/YouCompleteMe' "requires compilation to use
-Plugin 'scrooloose/syntastic'
-Plugin 'millermedeiros/vim-esformatter'
-Plugin 'digitaltoad/vim-pug'
-" Plugin 'elzr/vim-json'
-" Plugin 'SirVer/ultisnips'
-"Plugin 'sheerun/vim-polyglot'
+Plug 'scrooloose/syntastic'
+Plug 'millermedeiros/vim-esformatter'
+Plug 'digitaltoad/vim-pug'
+" Plug 'elzr/vim-json'
+" Plug 'SirVer/ultisnips'
+"Plug 'sheerun/vim-polyglot'
 " plugins from http://vim-scripts.org/vim/scripts.html
-Plugin 'node.js'
-Plugin 'SuperTab'
 " Git plugin not hosted on GitHub
-" Plugin 'git://git.wincent.com/command-t.git'
+" Plug 'git://git.wincent.com/command-t.git'
 " git repos on your local machine (i.e. when working on your own plugin)
-" Plugin 'file:///home/gmarik/path/to/plugin'
+" Plug 'file:///home/gmarik/path/to/plugin'
 " The sparkup vim script is in a subdirectory of this repo called vim.
 " Pass the path to set the runtimepath properly.
-" Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+" Plug 'rstacruz/sparkup', {'rtp': 'vim/'}
 " Install L9 and avoid a Naming conflict if you've already installed a
 " different version somewhere else.
-" Plugin 'ascenator/L9', {'name': 'newL9'}
-
+" Plug 'ascenator/L9', {'name': 'newL9'}
 
 " TypeScript
-Plugin 'leafgarland/typescript-vim'
+Plug 'leafgarland/typescript-vim'
 
 " Emmet.io
-Plugin 'mattn/emmet-vim'
+Plug 'mattn/emmet-vim'
 
 " colourscheme for vim and airline
-Plugin 'mhartington/oceanic-next'
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
+Plug 'mhartington/oceanic-next'
+
+call plug#end() " Plugins before this line
+
 colorscheme OceanicNext      " must be after call vundle#end()
 
 filetype plugin indent on    " required
