@@ -20,6 +20,13 @@ Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-surround'
 Plug 'dkprice/vim-easygrep'
 Plug 'editorconfig/editorconfig-vim'
+Plug 'jeetsukumaran/vim-buffergator'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+
+" Plug 'vim-syntastic/syntastic'
+Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+Plug 'w0rp/ale'
 
 " deoplete code completion
 if has('nvim')
@@ -47,9 +54,12 @@ Plug 'pangloss/vim-javascript'
 Plug 'elzr/vim-json'
 Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
 Plug 'steelsojka/deoplete-flow', { 'do': 'npm install -g flow-bin' }
+Plug 'mhartington/nvim-typescript'
+Plug 'mxw/vim-jsx', {'for': ['html','js','jsx']}
+
 
 " Emmet.io
-Plug 'mattn/emmet-vim', {'for': ['html',':css']}
+Plug 'mattn/emmet-vim', {'for': ['html','css']}
 
 " colourscheme for vim and airline
 Plug 'mhartington/oceanic-next'
@@ -84,12 +94,6 @@ set nosol " leave my cursor where it was
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Mappings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" map <up> <ESC>:bp<RETURN> " left arrow (normal mode) switches buffers
-" map <down> <ESC>:bn<RETURN> " right arrow (normal mode) switches buffers
-" map <right> <ESC>:Tlist<RETURN> " show taglist
-" map <left> <ESC>:NERDTreeToggle<RETURN>  " moves left fa split
-" map <F2> <ESC>ggVG:call SuperRetab()<left>
-" map <F12> ggVGg? " apply rot13 for people snooping over shoulder, good fun
 
 let mapleader = ',' "remap <leader>
 
@@ -147,9 +151,9 @@ set laststatus=2 " always show the status line
 set ai " autoindent (filetype indenting instead)
 set nosi " smartindent (filetype indenting instead)
 set cindent " do c-style indenting
-set softtabstop=4 " unify
-set shiftwidth=4 " unify
-set tabstop=4 " real tabs should be 4, but they will show with set list on
+set softtabstop=2 " unify
+set shiftwidth=2 " unify
+set tabstop=2 " real tabs should be 4, but they will show with set list on
 set copyindent " but above all -- follow the conventions laid before us
 " wrap lines at 120 chars. 80 is somewhat antiquated with nowadays displays.
 set textwidth=120
@@ -252,6 +256,36 @@ if g:flow_path != 'flow not found'
   let g:deoplete#sources#flow#flow_bin = g:flow_path
 endif
 
+let g:javascript_plugin_flow = 1
+let g:jsx_ext_required = 0
+
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
+
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 1
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_check_on_wq = 0
+
+" function! ToggleErrors()
+"  let old_last_winnr = winnr('$')
+"  lclose
+"  if old_last_winnr == winnr('$')
+"  " Nothing was closed, open syntastic error location panel
+"    Errors
+"  endif
+" endfunction
+
+" Close/open error panel with Ctrl+e
+nnoremap <silent> <C-e> :<C-u>call ToggleErrors()<CR>
+
+" make FZF behave like Ctrl-P
+let g:fzf_action = {
+      \ 'ctrl-s': 'split',
+      \ 'ctrl-v': 'vsplit'
+      \ }
+nnoremap <c-p> :FZF<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Useful abbrevs
