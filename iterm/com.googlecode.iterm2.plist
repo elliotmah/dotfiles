@@ -321,6 +321,7 @@
 	<key>NSWindow Frame NSFontPanel</key>
 	<string>805 353 445 234 0 0 1440 877 </string>
 	<key>NSWindow Frame SharedPreferences</key>
+<<<<<<< HEAD
 	<string>288 281 1018 447 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
 	<string>173 24 1050 815 0 0 1440 877 </string>
@@ -330,6 +331,13 @@
 	<string>197 47 1065 795 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 3</key>
 	<string>218 24 1065 795 0 0 1440 877 </string>
+=======
+	<string>527 431 796 473 0 0 1920 1057 </string>
+	<key>NSWindow Frame iTerm Window 0</key>
+	<string>601 173 1145 795 0 0 1920 1057 </string>
+	<key>NSWindow Frame iTerm Window 1</key>
+	<string>428 109 1145 795 0 0 1920 1057 </string>
+>>>>>>> 345bce3535965deeddcf92dce20650f6a86c353a
 	<key>New Bookmarks</key>
 	<array>
 		<dict>
@@ -565,7 +573,11 @@
 			<key>Close Sessions On End</key>
 			<true/>
 			<key>Columns</key>
+<<<<<<< HEAD
 			<integer>130</integer>
+=======
+			<integer>140</integer>
+>>>>>>> 345bce3535965deeddcf92dce20650f6a86c353a
 			<key>Command</key>
 			<string></string>
 			<key>Cursor Color</key>
@@ -1071,7 +1083,11 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
+<<<<<<< HEAD
 	<date>2018-01-29T04:46:15Z</date>
+=======
+	<date>2018-01-29T17:47:14Z</date>
+>>>>>>> 345bce3535965deeddcf92dce20650f6a86c353a
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>TerminalVMargin</key>
