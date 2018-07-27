@@ -59,10 +59,13 @@ Plug 'mxw/vim-jsx', {'for': ['html','js','jsx']}
 
 
 " Emmet.io
-Plug 'mattn/emmet-vim', {'for': ['html','css']}
+Plug 'mattn/emmet-vim', {'for': ['html','css','php','blade','js','jsx']}
 
 " colourscheme for vim and airline
 Plug 'mhartington/oceanic-next'
+
+" nerdfont support
+Plug 'ryanoasis/vim-devicons'
 
 filetype plugin indent on  "required
 call plug#end() " Plugins before this line
@@ -77,6 +80,7 @@ if (has('termguicolors'))
 endif
 
 colorscheme OceanicNext
+autocmd ColorScheme * highlight! Normal ctermbg=NONE guibg=NONE
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General
@@ -344,8 +348,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Instant Markdown
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:instant_markdown_autostart = 1
-
+let g:instant_markdown_autostart = 0
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Other
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -354,5 +357,5 @@ let g:sneak#streak = 1
 let g:airline_theme = 'oceanicnext'
 
 " emmet expand on tab
-let g:user_emmet_expandabbr_key='<Tab>'
-imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
+" let g:user_emmet_expandabbr_key='<Tab>'
+" imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")

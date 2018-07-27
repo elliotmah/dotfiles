@@ -48,6 +48,9 @@ export ZSH=/Users/elliotmah/.oh-my-zsh
 plugins=(git)
 
 # User configuration
+#
+# Workaround for completion permission error
+ZSH_DISABLE_COMPFIX=true
 
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/git/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -86,3 +89,4 @@ export TERM="xterm-256color"
 #
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export PATH="/usr/local/sbin:$PATH"
