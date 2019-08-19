@@ -62,7 +62,8 @@ Plug 'mxw/vim-jsx', {'for': ['html','js','jsx']}
 Plug 'mattn/emmet-vim', {'for': ['html','css','php','blade','js','jsx']}
 
 " colourscheme for vim and airline
-Plug 'mhartington/oceanic-next'
+" Plug 'mhartington/oceanic-next'
+Plug 'hzchirs/vim-material'
 
 " nerdfont support
 Plug 'ryanoasis/vim-devicons'
@@ -79,8 +80,10 @@ if (has('termguicolors'))
     set termguicolors
 endif
 
-colorscheme OceanicNext
-autocmd ColorScheme * highlight! Normal ctermbg=NONE guibg=NONE
+let g:material_style='oceanic'
+set background=dark
+colorscheme vim-material
+autocmd ColorScheme * highlight Normal ctermbg=NONE guibg=NONE
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General
@@ -354,7 +357,7 @@ let g:instant_markdown_autostart = 0
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:deoplete#enable_at_startup = 1 " requires Vim 8 with python 3 and neovim
 let g:sneak#streak = 1
-let g:airline_theme = 'oceanicnext'
+let g:airline_theme = 'material'
 
 " emmet expand on tab
 " let g:user_emmet_expandabbr_key='<Tab>'
