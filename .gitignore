@@ -1,4 +1,3 @@
 .DS_Store
 .netrwhist
-vim/plugged/deoplete-flow/
-vim/plugged/vim-prettier/
+/vim/plugged
